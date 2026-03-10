@@ -1,4 +1,4 @@
-# Day 36
+# Day 36 and 37
 
 # First Step - To Create VPC , and create Internet gateway and attach to VPC
 
