@@ -1,0 +1,103 @@
+VPC( Virtual private cloud) - it is like a data center where we can create resources to our project in isolated space.
+
+Subnets:
+A subnet (subnetwork) is a logical subdivision of an IP network, used to improve performance, security, 
+and manageability by dividing large networks into smaller, more efficient, and organized segments. It enables 
+faster data routing by reducing unnecessary traffic, often using a subnet mask to split IP addresses into network and host components.
+
+Public subnets have direct, two-way routing to the internet via an Internet Gateway (IGW), making them ideal for web servers and
+public-facing resources. Private subnets lack a direct internet route, shielding internal resources like databases from the internet, 
+and usually require a NAT Gateway for outbound internet access.
+
+Public Subnets: Web servers, Load Balancers, Bastion hosts.
+Private Subnets: Databases, application servers, backend services, internal data.
+
+An Internet Gateway is a bidirectional, free component allowing public, direct internet access (inbound and outbound) 
+to resources with public IPs. 
+
+A NAT Gateway is a chargeable service allowing only outbound internet access for private instances, 
+securing them from unsolicited inbound connections.
+
+IGW is attached to a VPC for public subnets; NGW is placed in a public subnet to serve instances in a private subnet.
+
+Internet Gateway: Use for web servers, public-facing applications, or services requiring incoming traffic from the internet.
+NAT Gateway: Use when you have private instances (like application servers or databases) that need to download patches or connect to third-party APIs without being exposed to the public.
+
+Private instances often use a NAT Gateway to send traffic, which then passes through the Internet Gateway to reach the internet.
+
+IP address - IPv4 - 32 bits.
+
+IP address varies from 0.0.0.0 to 255.255.255.255
+
+IP address : network + host 
+eg: 10.0.0.0/16 -> 16 bits are reserved for network, remaining 16 bits are reserved for host/server.
+2^16 -> 65,536 IP addresses are possible.
+
+
+Classless Inter-Domain Routing (CIDR) is a method for allocating IP addresses and routing packets efficiently,
+replacing the older, rigid system of Class A, B, and C networks. It uses a slash notation to define a network prefix, 
+allowing for flexible, custom-sized subnets and reducing IPv4 address waste.
+
+AWS range - 16 to 28 CIDR range can be created.
+
+eg:
+10.0.0.0/16 -> VPC CIDR
+10.0.0.0/24 -> Subnets CIDR , 8 bits-> 2^8 , i.e. 256 subnets, each subnet can have 2^8 IP addressess per subnet.
+subnets eg: 10.0.0.0/24, 10.0.1.0/24, 10.0.2.0/24....10.0.255.0/24
+
+Create a new VPC and create a internet gateway eg: roboshop-ig and now attach the internet gateway to the created VPC eg: roboshop.
+
+Now under our created VPC, we need to create public, private and DB subnets:
+Now create 1 public subnet eg: roboshop-public-us-east-1a for 1 Availablity Zone, eg: us-east-1a
+eg: 10.0.1.0/24 subnet for 10.0.0.0/16 VPC CIDR
+
+we can create another public subnet, eg: roboshop-public-us-east-1b for another availablity zone,  eg: us-east-1b
+eg: 10.0.2.0/24 subnet for 10.0.0.0/16 VPC CIDR
+
+
+we can create another private subnet eg: roboshop-private-us-east-1a for 1 Availablity Zone, eg: us-east-1a, and another
+private subnet, eg: roboshop-private-us-east-1b for another AZ, eg: us-east-1b
+eg: 10.0.11.0/24 subnet for 10.0.0.0/16 VPC CIDR and 10.0.12.0/24 subnet for 10.0.0.0/16 VPC CIDR
+
+
+we can create another db subnet eg: roboshop-db-us-east-1a for 1 Availablity Zone, eg: us-east-1a, and another
+db subnet, eg: roboshop-db-us-east-1b for another AZ, eg: us-east-1b
+eg: 10.0.21.0/24 subnet for 10.0.0.0/16 VPC CIDR and 10.0.22.0/24 subnet for 10.0.0.0/16 VPC CIDR
+
+
+Now under our created VPC, we need to create route table for public subnets, eg: roboshop-public
+Now we need to attach respective subnets to route tables via "Subnet Associations-Edit subnet associations"
+eg: roboshop-public-us-east-1a and roboshop-public-us-east-1b to created route table, ie. roboshop-public
+
+Now for created public route table, eg:roboshop-public, under "Routes" - Give destination as 0.0.0.0/0 and Target as Internet Gateway and select our created internet gateway, eg: roboshop-ig  to access to internet via internet gateway, i.e. now both created public subnets have access to internet route via internet gateway.
+
+Same for private route table, eg: roboshop-private
+create one private route table and attach respective subnets but we should not give internet access to private route table.
+
+Same for DB route table, eg: roboshop-db
+create one DB route table and attach respective subnets but we should not give internet access to DB route table.
+
+Overview:
+AWS Account - VPC(AZ1, AZ2) - Subnets(Public, Private, DB) 
+
+ingress/inbound - Incoming traffic comes to servers
+egress/outbound - outgoing traffic/data going out from servers/VPC
+
+eg: dnf install mysql -y -> outgoing/egress traffic
+
+NAT gateway - if the instances in private subnet/DB subnet wants to connect to internet to dowload or upload packages, they should go via NAT gateway, NAT gateway allows only egress/outbound traffic.
+
+Elastic IP/Static IP is mandatory to create NAT gateway.
+
+So Create/allocate one Elastic IP address to any 1 AZ, eg: us-east-1a 
+
+Now create one NAT gateway, eg: roboshop -> select AZ as zonal and select any respective created public subnet,
+eg: roboshop-public-us-east-1a for NAT gateway to be created only in that public 1a subnet.
+
+But in real projects, select regional and select created VPC, and then NAT getway will be created in all public subnets, which will cost extra charges as NAT gateways will be created in both public subnets, 1a and 1b.
+
+Also select public as connectivity type and select Manual method as Elastic IP and select created elastic ip address.
+
+Now go to private route table , under "Routes -> Edit Route" and Add route and give destination as 0.0.0.0/0 and target as NAT gateway and select our respective NAT gateway, eg: roboshop
+
+Now go to DB route table , under "Routes -> Edit Route" and Add route and give destination as 0.0.0.0/0 and target as NAT gateway and select our respective NAT gateway, eg: roboshop
