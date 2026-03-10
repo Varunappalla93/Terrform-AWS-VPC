@@ -38,20 +38,19 @@ resource "aws_subnet" "public" {
 
 # Create two private subnets in 2 AZ , us-east-1a and us-east-1b
 resource "aws_subnet" "private" {
-  count             = length(var.private_subnet_cidrs)
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.private_subnet_cidrs[count.index]
+  count = length(var.private_subnet_cidrs)
+  vpc_id     = aws_vpc.main.id
+  cidr_block = var.private_subnet_cidrs[count.index]
   availability_zone = local.az_names[count.index]
-  # map_public_ip_on_launch = true
 
   tags = merge(
-    local.common_tags,
-    # roboshop-dev-private-us-east-1a
-    {
-      Name = "${var.project}-${var.environment}-private-${local.az_names[count.index]}"
-    },
-    var.private_subnet_tags
-  )
+        local.common_tags,
+        # roboshop-dev-private-us-east-1a
+        {
+            Name = "${var.project}-${var.environment}-private-${local.az_names[count.index]}"
+        },
+        var.private_subnet_tags
+    )
 }
 
 
