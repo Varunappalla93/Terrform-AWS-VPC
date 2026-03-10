@@ -1,4 +1,4 @@
-terraform-aws-vpc :
+terraform-aws-vpc:
 A Terraform module for provisioning a production-ready AWS VPC with public, private, and database subnet tiers, NAT gateway, internet gateway, and route tables.
 
 Usage:
