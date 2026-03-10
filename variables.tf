@@ -90,3 +90,9 @@ variable "nat_gateway_tags" {
   default = {}
   type    = map(any)
 }
+
+
+variable "is_peering_required" {
+    default = false
+    type = bool
+}
