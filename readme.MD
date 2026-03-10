@@ -1,4 +1,4 @@
-<!-- terraform-aws-vpc
+terraform-aws-vpc
 A Terraform module for provisioning a production-ready AWS VPC with public, private, and database subnet tiers, NAT gateway, internet gateway, and route tables.
 
 Usage:
@@ -15,7 +15,7 @@ module "vpc" {
   database_subnet_cidrs = ["10.0.21.0/24", "10.0.22.0/24"]
 
   is_peering_required = false
-} -->
+} 
 
 # Features:
 # VPC with configurable CIDR block and DNS hostname support
