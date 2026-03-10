@@ -101,3 +101,8 @@ Also select public as connectivity type and select Manual method as Elastic IP a
 Now go to private route table , under "Routes -> Edit Route" and Add route and give destination as 0.0.0.0/0 and target as NAT gateway and select our respective NAT gateway, eg: roboshop
 
 Now go to DB route table , under "Routes -> Edit Route" and Add route and give destination as 0.0.0.0/0 and target as NAT gateway and select our respective NAT gateway, eg: roboshop
+
+VPC Peering - Connecting 2 VPC's in AWS, they can be in same region and same account or different region and diff account, same account and diff region, diff account and same region, but CIDR's of two VPC's should not overlap.
+
+requestor - who can accept for connection. eg: roboshop-dev
+acceptor - who can accept - default
