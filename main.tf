@@ -1,6 +1,6 @@
 # Day 36
 
-# First Step - Create VPC , and create Internet gateway and attach to VPC..
+# First Step - To Create VPC , and create Internet gateway and attach to VPC
 
 resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr
