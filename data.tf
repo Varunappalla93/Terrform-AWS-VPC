@@ -1,4 +1,4 @@
-# Day 36
+# Day 36 and 37
 
 data "aws_availability_zones" "available" {
   state = "available"
