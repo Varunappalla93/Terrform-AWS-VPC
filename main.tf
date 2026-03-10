@@ -171,3 +171,24 @@ resource "aws_route" "database" {
 
 }
 
+# associate route table in both public subnets
+resource "aws_route_table_association" "public" {
+  count = length(var.public_subnet_cidrs)
+  subnet_id      = aws_subnet.public[count.index].id
+  route_table_id = aws_route_table.public.id
+}
+
+# associate route table in both private subnets
+resource "aws_route_table_association" "private" {
+  count = length(var.private_subnet_cidrs)
+  subnet_id      = aws_subnet.private[count.index].id
+  route_table_id = aws_route_table.private.id
+}
+
+
+# associate route table in both database subnets
+resource "aws_route_table_association" "database" {
+  count = length(var.database_subnet_cidrs)
+  subnet_id      = aws_subnet.database[count.index].id
+  route_table_id = aws_route_table.database.id
+}
