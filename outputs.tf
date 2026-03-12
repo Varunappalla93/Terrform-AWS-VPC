@@ -4,7 +4,7 @@ output "azs_info" {
     value = data.aws_availability_zones.available
 }
 
-# module should output the reqd info to users, users should catch and store in SSM parameter store
+# module should output the reqd vpc id info to users, users should catch and store in SSM parameter store
 output "vpc_id" {
     value = aws_vpc.main.id
 }
