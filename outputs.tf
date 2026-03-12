@@ -1,4 +1,4 @@
-# Day 36 and 37 and 38
+# Day 36 and 37 and 38 and 39
 
 output "azs_info" {
     value = data.aws_availability_zones.available
