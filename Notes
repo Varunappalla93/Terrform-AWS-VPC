@@ -6,10 +6,13 @@ and manageability by dividing large networks into smaller, more efficient, and o
 faster data routing by reducing unnecessary traffic, often using a subnet mask to split IP addresses into network and host components.
 
 Public subnets have direct, two-way routing to the internet via an Internet Gateway (IGW), making them ideal for web servers and
-public-facing resources. Private subnets lack a direct internet route, shielding internal resources like databases from the internet, 
+public-facing resources. 
+
+Private subnets lack a direct internet route, shielding internal resources like databases from the internet, 
 and usually require a NAT Gateway for outbound internet access.
 
 Public Subnets: Web servers, Load Balancers, Bastion hosts.
+
 Private Subnets: Databases, application servers, backend services, internal data.
 
 An Internet Gateway is a bidirectional, free component allowing public, direct internet access (inbound and outbound) 
