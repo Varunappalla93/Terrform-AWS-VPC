@@ -6,6 +6,7 @@ locals {
     Environment=var.environment
     Terraform= "true"
   }
+  
   vpc_final_tags= merge(
     local.common_tags,
     {
