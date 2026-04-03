@@ -5,7 +5,7 @@ data "aws_availability_zones" "available" {
 }
 
 data "aws_vpc" "default" {
-  default = false
+  default = true
 }
 
 data "aws_route_table" "default" {
